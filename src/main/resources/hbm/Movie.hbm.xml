@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+  
+<hibernate-mapping>  
+    <class name="com.rtm.entity.Movie" table="t_movies">  
+    
+        <id name="id" type="java.lang.Integer">  
+            <column name="id" />  
+            <generator class="native" />  
+        </id>  
+        
+        <property name="movieName" type="string">  
+            <column name="movieName" />  
+        </property>  
+        
+        <property name="movieType" type="string">  
+            <column name="movieType" />  
+        </property>  
+        
+        <property name="movieUrl" type="string">  
+            <column name="movieUrl" />  
+        </property>  
+        
+        <property name="magnetUrl" type="string">  
+            <column name="magnetUrl" />  
+        </property>  
+        
+        <property name="ed2kUrl" type="string">  
+            <column name="ed2kUrl" />  
+        </property>  
+        
+        <property name="baiduUrl" type="string">  
+            <column name="baiduUrl" />  
+        </property>  
+        
+        <property name="baiduPwd" type="string">  
+            <column name="baiduPwd" />  
+        </property>  
+        
+        <property name="qqloadUrl" type="string">  
+            <column name="qqloadUrl" />  
+        </property>  
+        
+         <property name="torrentUrl" type="string">  
+            <column name="torrentUrl" />  
+        </property>  
+        
+        <property name="yun360Url" type="string">  
+            <column name="yun360Url" />  
+        </property>  
+        
+        <property name="insertTime" type="java.util.Date">  
+            <column name="insertTime" />  
+        </property>  
+        
+        <property name="operateTime" type="java.util.Date">  
+            <column name="operateTime" />  
+        </property>  
+        
+    
+    </class>  
+</hibernate-mapping>  

@@ -5,6 +5,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+/**
+ * 获取session工具类
+ * @author Dell
+ *
+ */
 public class HibernateUtil {
 	
 	 private static SessionFactory sessionFactory;  
