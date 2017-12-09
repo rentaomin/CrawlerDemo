@@ -31,24 +31,8 @@
             <column name="ed2kUrl" />  
         </property>  
         
-        <property name="baiduUrl" type="string">  
-            <column name="baiduUrl" />  
-        </property>  
-        
-        <property name="baiduPwd" type="string">  
-            <column name="baiduPwd" />  
-        </property>  
-        
-        <property name="qqloadUrl" type="string">  
-            <column name="qqloadUrl" />  
-        </property>  
-        
          <property name="torrentUrl" type="string">  
             <column name="torrentUrl" />  
-        </property>  
-        
-        <property name="yun360Url" type="string">  
-            <column name="yun360Url" />  
         </property>  
         
         <property name="insertTime" type="java.util.Date">  

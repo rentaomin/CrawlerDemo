@@ -2,6 +2,8 @@ package com.rtm.test;
 
 import java.util.List;
 
+import javax.persistence.EntityTransaction;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -40,22 +42,20 @@ public class HibernateTest {
 		/**
 		 * 测试使用连接池每次打开关闭session 提交事务是否会断开连接，报错
 		 */
-	     for(int i = 0;i<10000;i++) {
-	    	 Session session = HibernateUtil.getSession(); 
-	    	 Transaction tx = session.beginTransaction();  
+		try {
+			Session session = HibernateUtil.getSession(); 
+			Transaction tx = session.beginTransaction();  
+			for(int i = 0;i<100;i++) {
 	    	 User user = new User();
 	    	 user.setName("test"+i);
-	    	 user.setPassword("root"+i);
-	    	 
-	    	 try {
+	    	 user.setPassword("mm"+i);
 				session.save(user);
+			}
 				 tx.commit();
 			} catch (Exception e) {
-				tx.rollback();  
 				e.printStackTrace();
 			} finally{
 				HibernateUtil.closeSession();
 			}
 	     }
-	}
 }

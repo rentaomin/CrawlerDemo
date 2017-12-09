@@ -3,6 +3,8 @@ package com.rtm.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.print.DocFlavor.URL;
+
 /**
  * 电影实体类
  * @author Dell
@@ -33,20 +35,8 @@ public class Movie implements Serializable{
 	//电驴地址
 	private String ed2kUrl;
 	
-	//百度网盘地址
-	private String baiduUrl;
-	
-	//百度密码
-	private String baiduPwd;
-	
-	//qq旋风地址
-	private String qqloadUrl;
-	
 	//种子地址
 	private String torrentUrl;
-	
-	//360云盘地址
-	private String yun360Url;
 	
 	//插入时间
 	private Date insertTime;
@@ -102,44 +92,12 @@ public class Movie implements Serializable{
 		this.ed2kUrl = ed2kUrl;
 	}
 
-	public String getBaiduUrl() {
-		return baiduUrl;
-	}
-
-	public void setBaiduUrl(String baiduUrl) {
-		this.baiduUrl = baiduUrl;
-	}
-
-	public String getBaiduPwd() {
-		return baiduPwd;
-	}
-
-	public void setBaiduPwd(String baiduPwd) {
-		this.baiduPwd = baiduPwd;
-	}
-
-	public String getQqloadUrl() {
-		return qqloadUrl;
-	}
-
-	public void setQqloadUrl(String qqloadUrl) {
-		this.qqloadUrl = qqloadUrl;
-	}
-
 	public String getTorrentUrl() {
 		return torrentUrl;
 	}
 
 	public void setTorrentUrl(String torrentUrl) {
 		this.torrentUrl = torrentUrl;
-	}
-
-	public String getYun360Url() {
-		return yun360Url;
-	}
-
-	public void setYun360Url(String yun360Url) {
-		this.yun360Url = yun360Url;
 	}
 
 	public Date getInsertTime() {
@@ -156,6 +114,21 @@ public class Movie implements Serializable{
 
 	public void setOperateTime(Date operateTime) {
 		this.operateTime = operateTime;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+	//	result = prime * result + ((movieUrl == null) ? 0 : movieUrl.hashCode());
+		Movie mv = (Movie)this;
+		return mv.movieUrl.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Movie mv = (Movie) obj;
+		return this.movieUrl.equals(mv.movieUrl);
 	}
 
 	
