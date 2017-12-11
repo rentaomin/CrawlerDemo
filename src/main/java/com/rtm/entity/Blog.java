@@ -15,32 +15,45 @@ public class Blog implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	/** 主键 */
 	private int id;
 	
+	/** 博客主题 */
 	private String title;
 	
+	/** 博客作者 */
 	private String author;
 	
+	/** 浏览人数 */
 	private String browseNum;
 	
+	/** 博客原创数量 */
 	private String originalNum;
 	
+	/** 粉丝数 */
 	private String fansNum;
 	
+	/** 喜欢人数 */
 	private String likeNum;
 	
+	/** 码云 */
 	private String maYun;
 	
+	/** 博客分类 */
 	private String blogCatagory;
 	
+	/** 博客内容 */
 	private String blogContent;
 	
+	/** 博客地址 */
 	private String blogUrl;
 	
+	/** 插入时间 */
 	private Date insertTime;
-		
+	
+	/** 操作时间 */
 	private Date operateTime;
-
+	
 	public int getId() {
 		return id;
 	}
