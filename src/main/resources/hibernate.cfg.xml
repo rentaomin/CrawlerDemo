@@ -28,5 +28,8 @@
         <!--电影实体类  -->
          <mapping resource="/hbm/Movie.hbm.xml"></mapping> 
          
+         <!--博客实体类  -->
+          <mapping resource="/hbm/Blog.hbm.xml"></mapping> 
+         
     </session-factory>  
 </hibernate-configuration>

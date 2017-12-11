@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+  
+<hibernate-mapping>  
+    <class name="com.rtm.entity.Blog" table="t_blog">  
+    
+        <id name="id" type="java.lang.Integer">  
+            <column name="id" />  
+            <generator class="native" />  
+        </id>  
+        
+        <property name="title" type="string">  
+            <column name="title" />  
+        </property>  
+        
+        <property name="author" type="string">  
+            <column name="author" />  
+        </property>  
+        
+        <property name="browseNum" type="string">  
+            <column name="browseNum" />  
+        </property>  
+        
+        <property name="originalNum" type="string">  
+            <column name="originalNum" />  
+        </property>  
+        
+        <property name="fansNum" type="string">  
+            <column name="fansNum" />  
+        </property>  
+        
+         <property name="likeNum" type="string">  
+            <column name="likeNum" />  
+        </property>  
+        
+          <property name="maYun" type="string">  
+            <column name="maYun" />  
+        </property>  
+        
+        <property name="blogCatagory" type="string">  
+            <column name="blogCatagory" />  
+        </property>  
+        
+        <property name="blogContent" type="string">  
+            <column name="blogContent" />  
+        </property>  
+        
+         <property name="blogUrl" type="string">  
+            <column name="blogUrl" />  
+        </property>  
+        
+        <property name="insertTime" type="java.util.Date">  
+            <column name="insertTime" />  
+        </property>  
+        
+        <property name="operateTime" type="java.util.Date">  
+            <column name="operateTime" />  
+        </property>  
+        
+    
+    </class>  
+</hibernate-mapping>  
