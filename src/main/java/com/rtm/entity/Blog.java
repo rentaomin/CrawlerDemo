@@ -163,6 +163,8 @@ public class Blog implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
+		result = prime * result + ((blogCatagory == null) ? 0 : blogCatagory.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
 
@@ -180,8 +182,21 @@ public class Blog implements Serializable{
 				return false;
 		} else if (!author.equals(other.author))
 			return false;
+		if (blogCatagory == null) {
+			if (other.blogCatagory != null)
+				return false;
+		} else if (!blogCatagory.equals(other.blogCatagory))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
 		return true;
 	}
+
+
+	
 	
 	
 	

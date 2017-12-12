@@ -120,16 +120,34 @@ public class Movie implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-	//	result = prime * result + ((movieUrl == null) ? 0 : movieUrl.hashCode());
-		Movie mv = (Movie)this;
-		return mv.movieUrl.hashCode();
+		result = prime * result + ((movieName == null) ? 0 : movieName.hashCode());
+		result = prime * result + ((movieUrl == null) ? 0 : movieUrl.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		Movie mv = (Movie) obj;
-		return this.movieUrl.equals(mv.movieUrl);
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Movie other = (Movie) obj;
+		if (movieName == null) {
+			if (other.movieName != null)
+				return false;
+		} else if (!movieName.equals(other.movieName))
+			return false;
+		if (movieUrl == null) {
+			if (other.movieUrl != null)
+				return false;
+		} else if (!movieUrl.equals(other.movieUrl))
+			return false;
+		return true;
 	}
+
+
 
 	
 }

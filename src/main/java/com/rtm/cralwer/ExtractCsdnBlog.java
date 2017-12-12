@@ -44,7 +44,11 @@ public class ExtractCsdnBlog extends RamCrawler {
 
 	private static final Logger logger = Logger.getLogger(ExtractCsdnBlog.class);
 	
+	//每次进行保存数据库的集合
 	private Vector<Blog> blogVector = new Vector<Blog>();
+	
+	//存放所有爬取需要存的数据
+	private Vector<Blog> totalBlogVector = new Vector<Blog>();
 	
 	
 	/**
@@ -59,53 +63,71 @@ public class ExtractCsdnBlog extends RamCrawler {
 		proxys.add("218.241.234.48",8080);*/
 	   HttpRequest request = new HttpRequest(crawlDatum);
 	   request.setProxy(proxys.nextRandom());
-	   return request.responsePage();
+	  int code =  request.response().code();
+	  Page page = null;
+	  if ( code == 200 || code == 544) {
+		  System.out.println("响应状态："+code);
+		  page = request.responsePage();
+	  } else{
+		  page = null;
+		  System.out.println("请求失败！");
+	  }
+	  return page;
 	}
 	
 	@Override
     public void visit(Page page, CrawlDatums next) {
-        int code = page.code();
-        if (code == 200) {
-    		if (page.matchUrl("http://blog.csdn.net/.*/article/details/.*")) {
-				logger.info("进入爬取数据页面：");
-				String title = page.select("title").first().text();
-				logger.info("当前访问的地址为:"+page.url()+"博客主题："+title);
-				String author = page.select(".right_box.user_info dl dd h3 a").text();
-				String  blogCatogory = page.select("div[class=article_bar clearfix] ul[data-mod] li a").text();
-				logger.info("博客作者："+author+""+"博客分类："+blogCatogory);
-				Elements  userInfo = page.select("div[class=inf_number_box clearfix] dl dd");
-				String originNum  = userInfo.get(0).text();
-				String fans = userInfo.get(1).text();
-				String likes = userInfo.get(2).text();
-				String yun =  userInfo.get(3).text();
-				String  read = page.select("div[class=article_bar clearfix] ul[class=right_bar] li button span ").text();
-				logger.info("博客原创数量："+originNum+"粉丝数量:"+fans+"喜欢人数："+likes+"码云："+yun+"阅读量："+read);
-				String content = page.select("#article_content").text();
-				next.add(page.links("div[class=hotarticls] ul li a"));
-				
-				if (StringUtils.isNotEmpty(content)) {
-					Blog blog = new Blog();
-					blog.setTitle(title);
-					blog.setAuthor(author);
-					blog.setBrowseNum(read);
-					blog.setOriginalNum(originNum);
-					blog.setFansNum(fans);
-					blog.setLikeNum(likes);
-					blog.setMaYun(yun);
-					blog.setBlogCatagory(blogCatogory);
-					blog.setBlogContent(content);
-					blog.setBlogUrl(page.url());
-					blog.setInsertTime(new Date());
-					blog.setOperateTime(new Date());
-					logger.info("blogVector去重前："+this.blogVector.size());
-					if (!this.blogVector.contains(blog) ) {
+		if (page.matchUrl("http://blog.csdn.net/.*")) {
+			logger.info("进入爬取数据页面：");
+			String title = page.select("title").first().text();
+			logger.info("当前访问的地址为:"+page.url()+"博客主题："+title);
+			String author = page.select(".right_box.user_info dl dd h3 a").text();
+			String  blogCatogory = page.select("div[class=article_bar clearfix] ul[data-mod] li a").text();
+			logger.info("博客作者："+author+""+"博客分类："+blogCatogory);
+			Elements  userInfo = page.select("div[class=inf_number_box clearfix] dl dd");
+			String originNum  = "";
+			String fans = "";
+			String likes = "";
+			String yun = "";
+			if (userInfo.size() > 0) {
+				 originNum  = userInfo.get(0).text();
+				 fans = userInfo.get(1).text();
+				 likes = userInfo.get(2).text();
+				  yun =  userInfo.get(3).text();
+			}
+			String  read = page.select("div[class=article_bar clearfix] ul[class=right_bar] li button span ").text();
+			logger.info("博客原创数量："+originNum+"粉丝数量:"+fans+"喜欢人数："+likes+"码云："+yun+"阅读量："+read);
+			String content = page.select("#article_content").text();
+			next.add(page.links("div[class=hotarticls] ul li a"));
+			
+			if (StringUtils.isNotEmpty(content)) {
+				Blog blog = new Blog();
+				blog.setTitle(title);
+				blog.setAuthor(author);
+				blog.setBrowseNum(read);
+				blog.setOriginalNum(originNum);
+				blog.setFansNum(fans);
+				blog.setLikeNum(likes);
+				blog.setMaYun(yun);
+				blog.setBlogCatagory(blogCatogory);
+				blog.setBlogContent(content);
+				blog.setBlogUrl(page.url());
+				blog.setInsertTime(new Date());
+				blog.setOperateTime(new Date());
+				logger.info("blogVector去重前："+this.blogVector.size());
+				System.out.println("当前总共："+this.blogVector.size());
+				if (!this.totalBlogVector.contains(blog) ) {
+					this.totalBlogVector.add(blog);
+					if  ( !this.blogVector.contains(blog) ) {
 						this.blogVector.add(blog);
-						logger.info("去重后："+this.blogVector.size());
-						this.saveBlogInfoWithSynchronized(this.blogVector);
+						System.out.println("去重后保存的数据："+this.blogVector.size());
 					}
+					logger.info("去重后："+this.blogVector.size());
+					System.out.println("==========");
+					this.saveBlogInfoWithSynchronized(this.blogVector);
 				}
-    		}
-        }
+			}
+		}
     }
 	
 	
@@ -116,7 +138,7 @@ public class ExtractCsdnBlog extends RamCrawler {
     private synchronized void saveBlogInfoWithSynchronized(Vector<Blog> blogVec) {
     	int blogLen = blogVec.size();
     	logger.info("保存前数据："+blogLen);
-    	if (blogVec != null && blogLen > 1000) {
+    	if (blogVec != null && blogLen > 200) {
     		Session session = HibernateUtil.getSession();  
 			Transaction tx = session.beginTransaction();
 			try {
@@ -137,7 +159,7 @@ public class ExtractCsdnBlog extends RamCrawler {
 			} finally {
 				HibernateUtil.closeSession();
 				this.blogVector = new Vector<Blog>();
-				logger.info("关闭session"+"blogVector清楚后数据为："+this.blogVector.size());
+				logger.info("关闭session"+"blogVector清楚后数据为："+this.blogVector.size()+"总共数据："+this.totalBlogVector.size());
 			}
     	}
 	}
@@ -145,8 +167,8 @@ public class ExtractCsdnBlog extends RamCrawler {
 	public static void main(String[] args) throws Exception {
         ExtractCsdnBlog crawler = new ExtractCsdnBlog();
         crawler.addSeed("http://blog.csdn.net/");
-        crawler.addRegex("http://blog.csdn.net/.*/article/details/.*");
-        crawler.setThreads(20);
+        crawler.addRegex("http://blog.csdn.net/.*");
+        crawler.setThreads(30);
         crawler.start(50);
     }
 
@@ -158,4 +180,13 @@ public class ExtractCsdnBlog extends RamCrawler {
 		this.blogVector = blogVector;
 	}
 
+	public Vector<Blog> getTotalBlogVector() {
+		return totalBlogVector;
+	}
+
+	public void setTotalBlogVector(Vector<Blog> totalBlogVector) {
+		this.totalBlogVector = totalBlogVector;
+	}
+	
+	
 }

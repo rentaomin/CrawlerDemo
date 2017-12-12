@@ -85,20 +85,19 @@ public class ExtractMovies extends BreadthCrawler {
 			Session session = HibernateUtil.getSession();  
 			Transaction tx = session.beginTransaction();
 	 	    int movieVectorLen = this.movieVector.size();
-	 	   System.out.println("准备进行保存操作2：共："+movieVectorLen);
 	 	    logger.info("开启事务，准备保存数据，此次保存的数据共："+movieVectorLen+"条数据");
 			try {
-				if (movieVectorLen > 0) {
+				if (movieVectorSize > 0) {
 					for (int i = 0;i < movieVectorSize;i++) {
 						Movie entity = this.movieVector.get(i);
 						if (entity != null) {
 							session.save(entity);
 						}
-						tx.commit();
 						logger.info("事务提交成功，成功保存数据"+movieVectorSize);
 					}
-					System.out.println("事务提交成功，成功保存数据2"+movieVectorLen);
+					tx.commit();
 					System.out.println("事务提交成功，成功保存数据1"+movieVectorSize);
+					System.out.println("事务提交成功，成功保存数据2"+movieVectorLen);
 				}
 			} catch (Exception e) {
 				logger.error("数据保存失败"+e);
@@ -149,6 +148,7 @@ public class ExtractMovies extends BreadthCrawler {
 				movie.setInsertTime(new Date());
 				if(!this.movieVector.contains(movie)){
 					this.movieVector.add(movie);
+					System.out.println("电影保存到vector成功，大小为："+this.movieVector.size());
 					logger.info("电影保存到vector成功，大小为："+this.movieVector.size());
 				}
 				this.clearStringBuffer(ed2kSb,magnetSb,torrentSb);
@@ -207,7 +207,7 @@ public class ExtractMovies extends BreadthCrawler {
 		//传入的test为框架默认爬取的文件保存名称
 		ExtractMovies extractMovies = new ExtractMovies("cralwer", true);
 		//爬取网页的深度
-		extractMovies.start(10);
+		extractMovies.start(50);
 	}
 
 	
