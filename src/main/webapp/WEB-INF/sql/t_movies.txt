@@ -1,0 +1,13 @@
+
+CREATE TABLE `t_movies` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `movieName` varchar(100) DEFAULT NULL COMMENT '电影名称',
+  `movieType` varchar(10) DEFAULT NULL COMMENT '电影类型',
+  `movieUrl` varchar(400) DEFAULT NULL COMMENT '电影地址',
+  `magnetUrl` varchar(2000) DEFAULT NULL COMMENT '磁力下载地址',
+  `ed2kUrl` varchar(2000) DEFAULT NULL COMMENT '电驴下载地址',
+  `torrentUrl` varchar(2000) DEFAULT NULL COMMENT '种子下载地址',
+  `insertTime` date DEFAULT NULL COMMENT '插入时间',
+  `operateTime` date DEFAULT NULL COMMENT '操作时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35632 DEFAULT CHARSET=utf8
